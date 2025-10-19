@@ -15,6 +15,7 @@ import applicationFunctionManager from "./services/appFuncManager.js"
 import {SheetBase} from "./core/table/base.js";
 import { Cell } from "./core/table/cell.js";
 import { initExternalDataAdapter } from './external-data-adapter.js';
+import { registerAutoTableUpdateListener, AUTO_UPDATE_DEFAULT_SETTINGS } from "./scripts/runtime/autoTableUpdate.js";
 
 
 console.log("______________________记忆插件：开始加载______________________")

@@ -3,7 +3,7 @@
  * 用于在AI回复后自动分析内容并在后台完成填表，无需在正文中注入填表指令
  */
 
-import { BASE, EDITOR, SYSTEM, USER } from '../../core/manager.js';
+import { APP, BASE, EDITOR, SYSTEM, USER } from '../../core/manager.js';
 import { executeTableEditActions, getTablePrompt, initTableData } from "../../index.js";
 import { handleCustomAPIRequest, handleMainAPIRequest, estimateTokenCount } from "../settings/standaloneAPI.js";
 import { updateSystemMessageTableStatus } from "../renderer/tablePushToChat.js";
@@ -18,41 +18,60 @@ let isProcessing = false;
  * 在AI生成回复后自动触发表格分析
  */
 export function registerAutoTableUpdateListener() {
-    if (!USER.tableBaseSetting.auto_table_update_enabled) {
-        console.log('[自动填表] 功能未启用');
-        return;
-    }
-
-    // 监听AI回复事件
-    if (window.eventSource) {
-        window.eventSource.on('CHARACTER_MESSAGE_RENDERED', handleNewAIMessage);
-    }
+    console.log('[自动填表] 开始注册监听器...');
+    console.log('[自动填表] 当前配置:', {
+        enabled: USER.tableBaseSetting.auto_table_update_enabled,
+        useMainAPI: USER.tableBaseSetting.auto_update_use_main_api,
+        silentMode: USER.tableBaseSetting.auto_update_silent_mode
+    });
     
-    console.log('[自动填表] 监听器已注册');
+    // 监听AI回复事件
+    if (APP && APP.eventSource) {
+        APP.eventSource.on(APP.event_types.CHARACTER_MESSAGE_RENDERED, handleNewAIMessage);
+        console.log('[自动填表] ✅ 监听器注册成功 - 已绑定到 CHARACTER_MESSAGE_RENDERED 事件');
+    } else {
+        console.error('[自动填表] ❌ 无法注册监听器 - APP.eventSource 不可用');
+    }
 }
 
 /**
  * 注销监听器
  */
 export function unregisterAutoTableUpdateListener() {
-    if (window.eventSource) {
-        window.eventSource.removeListener('CHARACTER_MESSAGE_RENDERED', handleNewAIMessage);
+    if (APP && APP.eventSource) {
+        APP.eventSource.removeListener(APP.event_types.CHARACTER_MESSAGE_RENDERED, handleNewAIMessage);
+        console.log('[自动填表] 监听器已注销');
     }
-    console.log('[自动填表] 监听器已注销');
 }
 
 /**
  * 处理新的AI消息
  */
 async function handleNewAIMessage(data) {
+    console.log('[自动填表] ⚡ 触发事件 - CHARACTER_MESSAGE_RENDERED', data);
+    
     // 检查是否启用自动填表
-    if (!USER.tableBaseSetting.auto_table_update_enabled) return;
+    if (!USER.tableBaseSetting.auto_table_update_enabled) {
+        console.log('[自动填表] ⏸️ 功能未启用，跳过处理');
+        return;
+    }
     
     // 检查是否是AI消息
     const { piece } = USER.getChatPiece();
-    if (!piece || piece.is_user) return;
+    if (!piece) {
+        console.log('[自动填表] ⚠️ 未找到聊天片段');
+        return;
+    }
     
-    console.log('[自动填表] 检测到新的AI回复，准备分析...');
+    if (piece.is_user) {
+        console.log('[自动填表] ⏭️ 用户消息，跳过');
+        return;
+    }
+    
+    console.log('[自动填表] ✅ 检测到AI回复，准备分析...', {
+        messageLength: piece.mes?.length || 0,
+        timestamp: new Date().toLocaleTimeString()
+    });
     
     // 添加到队列
     autoUpdateQueue.push({
