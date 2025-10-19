@@ -848,21 +848,6 @@ jQuery(async () => {
         console.error("外部数据适配器初始化失败:", error);
     }
     
-    // 初始化自动填表功能
-    try {
-        // 确保默认设置存在
-        Object.keys(AUTO_UPDATE_DEFAULT_SETTINGS).forEach(key => {
-            if (USER.tableBaseSetting[key] === undefined) {
-                USER.tableBaseSetting[key] = AUTO_UPDATE_DEFAULT_SETTINGS[key];
-            }
-        });
-        
-        // 注册监听器
-        registerAutoTableUpdateListener();
-        console.log("______________________自动填表功能：初始化成功______________________");
-    } catch (error) {
-        console.error("自动填表功能初始化失败:", error);
-    }
 
     // 版本检查
     fetch("http://api.muyoo.com.cn/check-version", {
@@ -896,8 +881,14 @@ jQuery(async () => {
     // 添加顶部表格管理工具弹窗
     $('#extensions-settings-button').after(await SYSTEM.getTemplate('appHeaderTableDrawer'));
 
+    // ⚠️ 关键：必须先加载设置，再注册监听器
     // 应用程序启动时加载设置
-    loadSettings();
+    await loadSettings();
+    
+    console.log('[初始化] 设置加载完成，当前配置:', {
+        auto_table_update_enabled: USER.tableBaseSetting.auto_table_update_enabled,
+        isExtensionAble: USER.tableBaseSetting.isExtensionAble
+    });
 
     // 表格弹出窗
     $(document).on('click', '.open_table_by_id', function () {
@@ -974,6 +965,27 @@ jQuery(async () => {
     APP.eventSource.on(APP.event_types.MESSAGE_SWIPED, onMessageSwiped);
     APP.eventSource.on(APP.event_types.MESSAGE_DELETED, onChatChanged);
 
+    // 初始化自动填表功能（必须在 loadSettings 之后）
+    try {
+        // 确保默认设置存在
+        Object.keys(AUTO_UPDATE_DEFAULT_SETTINGS).forEach(key => {
+            if (USER.tableBaseSetting[key] === undefined) {
+                USER.tableBaseSetting[key] = AUTO_UPDATE_DEFAULT_SETTINGS[key];
+            }
+        });
+        
+        console.log('[初始化] 准备注册自动填表监听器，当前配置:', {
+            enabled: USER.tableBaseSetting.auto_table_update_enabled,
+            useMainAPI: USER.tableBaseSetting.auto_update_use_main_api,
+            silentMode: USER.tableBaseSetting.auto_update_silent_mode
+        });
+        
+        // 注册监听器
+        registerAutoTableUpdateListener();
+        console.log("______________________自动填表功能：初始化成功______________________");
+    } catch (error) {
+        console.error("自动填表功能初始化失败:", error);
+    }
     
     console.log("______________________记忆插件：加载完成______________________")
 });
