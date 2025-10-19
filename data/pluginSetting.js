@@ -345,6 +345,17 @@ export const defaultSettings = await switchLanguage('__defaultSettings__', {
     separateReadLorebook: false,
     /**
      * ===========================
+     * 自动填表设置
+     * ===========================
+     */
+    // 自动填表开关
+    auto_update_enabled: false,
+    // 自动填表静默模式（不弹出确认框）
+    auto_update_silent_mode: false,
+    // 自动填表延迟时间（毫秒）
+    auto_update_delay: 2000,
+    /**
+     * ===========================
      * 表格结构
      * ===========================
      */
