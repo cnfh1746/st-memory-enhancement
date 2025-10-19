@@ -349,11 +349,17 @@ export const defaultSettings = await switchLanguage('__defaultSettings__', {
      * ===========================
      */
     // 自动填表开关
-    auto_update_enabled: false,
+    auto_table_update_enabled: false,
+    // 自动填表使用主API
+    auto_update_use_main_api: false,
     // 自动填表静默模式（不弹出确认框）
     auto_update_silent_mode: false,
-    // 自动填表延迟时间（毫秒）
-    auto_update_delay: 2000,
+    // 自动填表批量大小
+    auto_update_batch_size: 3,
+    // 自动填表上下文消息数
+    auto_update_context_messages: 10,
+    // 自动填表是否包含系统消息
+    auto_update_include_system: false,
     /**
      * ===========================
      * 表格结构
