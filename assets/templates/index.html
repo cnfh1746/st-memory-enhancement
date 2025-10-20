@@ -59,7 +59,6 @@
                                         <div class="menu_button button-square-icon fa-solid fa-undo" id="table-reset"
                                             title="重置表格预设" data-i18n="[title]Reset table presets"></div>
                                     </div>
-                                </h4>
                             </div>
 
                             <h4 data-i18n="Plugin switches">插件开关</h4>
@@ -219,78 +218,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <!-- 向量化设置 -->
-                            <div class="inline-drawer wide100p">
-                                <div class="inline-drawer-toggle inline-drawer-header">
-                                    <b><span data-i18n="Vector search settings">🔍 向量化语义搜索</span></b>
-                                    <div class="fa-solid fa-circle-chevron-down inline-drawer-icon down"></div>
-                                </div>
-                                <div class="inline-drawer-content" style="display: none; padding-left: 20px; width: calc(100% - 20px)">
-                                    <div class="checkbox_label range-block justifyLeft">
-                                        <input type="checkbox" id="vector_search_enabled"><span>启用向量化搜索</span>
-                                        <small class="toggle-description justifyLeft">(开启后将使用语义搜索来检索相关表格数据，可大幅降低Token消耗)</small>
-                                    </div>
-
-                                    <!-- API配置 -->
-                                    <div style="margin-top: 10px;">
-                                        <label for="vector_api_url">Embedding API地址</label>
-                                        <input type="text" id="vector_api_url" class="text_pole" 
-                                            placeholder="https://api.siliconflow.cn/v1">
-                                        
-                                        <label for="vector_api_key" style="margin-top: 5px;">API Key</label>
-                                        <input type="password" id="vector_api_key" class="text_pole" 
-                                            placeholder="sk-xxxxx">
-                                        
-                                        <label for="vector_model_name" style="margin-top: 5px;">Embedding模型</label>
-                                        <input type="text" id="vector_model_name" class="text_pole" 
-                                            placeholder="BAAI/bge-large-zh-v1.5" value="BAAI/bge-large-zh-v1.5">
-                                    </div>
-
-                                    <!-- 搜索配置 -->
-                                    <div style="margin-top: 15px;">
-                                        <div class="flex-container slider-container">
-                                            <label><span>返回结果数量：</span><code id="vector_top_k_value">5</code></label>
-                                            <input type="range" id="vector_top_k" min="1" max="20" step="1" value="5" style="width: calc(100% - 20px);">
-                                        </div>
-                                        
-                                        <div class="flex-container slider-container">
-                                            <label><span>相似度阈值：</span><code id="vector_threshold_value">0.70</code></label>
-                                            <input type="range" id="vector_threshold" min="0.5" max="1.0" step="0.05" value="0.70" style="width: calc(100% - 20px);">
-                                        </div>
-                                    </div>
-
-                                    <!-- 向量化选项 -->
-                                    <div style="margin-top: 15px;">
-                                        <div class="checkbox_label range-block justifyLeft">
-                                            <input type="checkbox" id="vector_auto_vectorize" checked><span>自动向量化新数据</span>
-                                            <small class="toggle-description justifyLeft">(表格更新后自动重新向量化)</small>
-                                        </div>
-                                        
-                                        <div class="checkbox_label range-block justifyLeft">
-                                            <input type="checkbox" id="vector_show_debug"><span>显示调试信息</span>
-                                            <small class="toggle-description justifyLeft">(在控制台显示向量化和搜索的详细信息)</small>
-                                        </div>
-                                    </div>
-
-                                    <!-- 操作按钮 -->
-                                    <div style="display: flex; gap: 10px; margin-top: 15px;">
-                                        <div class="menu_button menu_button_icon" id="vector_test_api_button">
-                                            <i class="fa-solid fa-vial"></i><a>测试API</a>
-                                        </div>
-                                        <div class="menu_button menu_button_icon" id="vector_view_stats_button">
-                                            <i class="fa-solid fa-chart-bar"></i><a>查看统计</a>
-                                        </div>
-                                        <div class="menu_button menu_button_icon redWarningBG" id="vector_clear_all_button">
-                                            <i class="fa-solid fa-trash"></i><a>清除所有向量</a>
-                                        </div>
-                                    </div>
-
-                                    <small class="toggle-description justifyLeft" style="margin-top: 10px; display: block;">
-                                        💡 推荐使用硅基流动API（免费且稳定）：<a href="https://cloud.siliconflow.cn/" target="_blank">https://cloud.siliconflow.cn/</a>
-                                    </small>
                                 </div>
                             </div>
 
