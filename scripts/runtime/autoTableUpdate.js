@@ -295,8 +295,16 @@ async function processAutoTableUpdate(message) {
         debugLog('[处理] 执行表格操作...', null, 'info');
         debugLog('[处理] 操作指令详情', matches, 'info');
         
-        const { piece } = USER.getChatPiece();
-        const success = executeTableEditActions(matches, piece);
+        // 🔥 关键修复：获取上一个表格数据的piece作为参考
+        // 而不是当前消息的piece
+        const { piece: referencePiece } = BASE.getLastSheetsPiece(1);
+        if (!referencePiece) {
+            debugLog('[处理] ❌ 无法获取参考表格数据', null, 'error');
+            return;
+        }
+        debugLog('[处理] 参考表格数据', { uid: referencePiece.uid, hash_sheets: Object.keys(referencePiece.hash_sheets || {}) }, 'info');
+        
+        const success = executeTableEditActions(matches, referencePiece);
         
         if (success) {
             debugLog('[处理] ✅ 表格操作执行成功', null, 'success');
