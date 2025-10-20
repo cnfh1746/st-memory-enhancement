@@ -109,7 +109,6 @@
                                 <select id="fill_table_time" class="flex1" style="min-width: 100px">
                                     <option value="chat">聊天的同时填表</option>
                                     <option value="after">收到消息后再单独填表</option>
-                                    <option value="auto">自动填表（后台自动）</option>
                                 </select>
 
 
@@ -123,48 +122,6 @@
                                     <div class="checkbox_label range-block justifyLeft">
                                         <input type="checkbox" id="table_edit_switch"><span
                                             data-i18n="AI edit table switch">AI改表开关</span>
-                                    </div>
-                                </div>
-
-                                <!-- 自动填表 -->
-                                <div id="auto_update_options" style="padding-left: 20px; width: calc(100% - 20px);">
-                                    <div class="checkbox_label range-block justifyLeft">
-                                        <input type="checkbox" id="auto_update_use_main_api" checked><span
-                                            data-i18n="Use main API">使用主API</span>
-                                        <small class="toggle-description justifyLeft">(未勾选时使用下方的独立API)</small>
-                                    </div>
-                                    
-                                    <div style="padding-left: 5px; margin-bottom: 10px;">
-                                        <label for="auto_update_batch_size">批量处理数量：</label>
-                                        <input type="number" id="auto_update_batch_size" class="text_pole" style="width: 80px;" min="1" max="10" value="3" />
-                                        <small class="toggle-description justifyLeft">(每次最多同时处理的表格数量，建议1-5)</small>
-                                    </div>
-                                    
-                                    <div style="padding-left: 5px; margin-bottom: 10px;">
-                                        <label for="auto_update_context_messages">上下文消息数：</label>
-                                        <input type="number" id="auto_update_context_messages" class="text_pole" style="width: 80px;" min="1" max="50" value="10" />
-                                        <small class="toggle-description justifyLeft">(用于生成更新的最近消息数量)</small>
-                                    </div>
-                                    
-                                    <div class="checkbox_label range-block justifyLeft">
-                                        <input type="checkbox" id="auto_update_include_system"><span>包含系统消息</span>
-                                        <small class="toggle-description justifyLeft">(在上下文中包含系统消息和角色卡)</small>
-                                    </div>
-                                    
-                                    <div class="checkbox_label range-block justifyLeft">
-                                        <input type="checkbox" id="auto_update_silent_mode" checked><span>静默模式</span>
-                                        <small class="toggle-description justifyLeft">(不显示处理进度提示)</small>
-                                    </div>
-
-                                    <div class="inline-drawer wide100p" style="margin-top: 10px;">
-                                        <div class="inline-drawer-toggle inline-drawer-header">
-                                            <b><span data-i18n="Custom independent API">自定义独立API</span></b>
-                                            <div class="fa-solid fa-circle-chevron-down inline-drawer-icon down"></div>
-                                        </div>
-                                        <div class="inline-drawer-content"
-                                            style="display: none; padding-left: 20px; width: calc(100% - 20px)">
-                                            <small class="toggle-description justifyLeft">(自动填表模式会复用分步填表的API配置)</small>
-                                        </div>
                                     </div>
                                 </div>
 

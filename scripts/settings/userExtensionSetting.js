@@ -325,13 +325,10 @@ function InitBinging() {
     });
     $("#fill_table_time").change(function() {
         const value = $(this).val();
-        const step_by_step = value === 'after';
-        const auto_update = value === 'auto';
-        $('#reply_options').toggle(value === 'chat');
+        const step_by_step = value === 'after'
+        $('#reply_options').toggle(!step_by_step);
         $('#step_by_step_options').toggle(step_by_step);
-        $('#auto_update_options').toggle(auto_update);
         USER.tableBaseSetting.step_by_step = step_by_step;
-        USER.tableBaseSetting.auto_table_update_enabled = auto_update;
     })
     // 确认执行
     $('#confirm_before_execution').change(function() {
@@ -471,23 +468,6 @@ function InitBinging() {
         USER.tableBaseSetting.separateReadLorebook = this.checked;
         USER.saveSettings && USER.saveSettings();
     });
-    
-    // 自动填表设置
-    $('#auto_update_use_main_api').change(function() {
-        USER.tableBaseSetting.auto_update_use_main_api = this.checked;
-    });
-    $('#auto_update_batch_size').on('input', function() {
-        USER.tableBaseSetting.auto_update_batch_size = Number($(this).val());
-    });
-    $('#auto_update_context_messages').on('input', function() {
-        USER.tableBaseSetting.auto_update_context_messages = Number($(this).val());
-    });
-    $('#auto_update_include_system').change(function() {
-        USER.tableBaseSetting.auto_update_include_system = this.checked;
-    });
-    $('#auto_update_silent_mode').change(function() {
-        USER.tableBaseSetting.auto_update_silent_mode = this.checked;
-    });
     // 重置分步填表提示词为默认值
     $('#reset_step_by_step_user_prompt').on('click', function() {
         const defaultValue = USER.tableBaseDefaultSettings.step_by_step_user_prompt;
@@ -590,21 +570,7 @@ export function renderSetting() {
     $('#separateReadContextLayers').val(USER.tableBaseSetting.separateReadContextLayers);
     // 分步填表是否读取世界书
     updateSwitch('#separateReadLorebook', USER.tableBaseSetting.separateReadLorebook);
-    
-    // 设置填表时机选择器的值
-    if (USER.tableBaseSetting.auto_table_update_enabled) {
-        $("#fill_table_time").val('auto');
-    } else {
-        $("#fill_table_time").val(USER.tableBaseSetting.step_by_step ? 'after' : 'chat');
-    }
-    
-    // 自动填表设置
-    updateSwitch('#auto_update_use_main_api', USER.tableBaseSetting.auto_update_use_main_api !== false);
-    $('#auto_update_batch_size').val(USER.tableBaseSetting.auto_update_batch_size || 3);
-    $('#auto_update_context_messages').val(USER.tableBaseSetting.auto_update_context_messages || 10);
-    updateSwitch('#auto_update_include_system', USER.tableBaseSetting.auto_update_include_system === true);
-    updateSwitch('#auto_update_silent_mode', USER.tableBaseSetting.auto_update_silent_mode !== false);
-    
+    $("#fill_table_time").val(USER.tableBaseSetting.step_by_step ? 'after' : 'chat');
     refreshRebuildTemplate()
 
     // private data
@@ -633,9 +599,8 @@ export function renderSetting() {
     updateSwitch('#alternate_switch', USER.tableBaseSetting.alternate_switch);
     updateSwitch('#show_drawer_in_extension_list', USER.tableBaseSetting.show_drawer_in_extension_list);
     updateSwitch('#table_to_chat_can_edit', USER.tableBaseSetting.table_to_chat_can_edit);
-    $('#reply_options').toggle(!USER.tableBaseSetting.step_by_step && !USER.tableBaseSetting.auto_table_update_enabled);
-    $('#step_by_step_options').toggle(USER.tableBaseSetting.step_by_step === true);
-    $('#auto_update_options').toggle(USER.tableBaseSetting.auto_table_update_enabled === true);
+    $('#reply_options').toggle(!USER.tableBaseSetting.step_by_step);
+    $('#step_by_step_options').toggle(USER.tableBaseSetting.step_by_step);
     $('#table_to_chat_options').toggle(USER.tableBaseSetting.isTableToChat);
     $('#table_to_chat_is_micro_d').toggle(USER.tableBaseSetting.table_to_chat_mode === 'macro');
 
