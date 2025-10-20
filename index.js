@@ -16,6 +16,7 @@ import {SheetBase} from "./core/table/base.js";
 import { Cell } from "./core/table/cell.js";
 import { initExternalDataAdapter } from './external-data-adapter.js';
 import { registerAutoTableUpdateListener, AUTO_UPDATE_DEFAULT_SETTINGS } from "./scripts/runtime/autoTableUpdate.js";
+import './scripts/runtime/autoUpdateLogger.js'; // 导入日志管理器
 
 
 console.log("______________________记忆插件：开始加载______________________")
@@ -880,6 +881,11 @@ jQuery(async () => {
     $('#translation_container').after(await SYSTEM.getTemplate('index'));
     // 添加顶部表格管理工具弹窗
     $('#extensions-settings-button').after(await SYSTEM.getTemplate('appHeaderTableDrawer'));
+    
+    // 初始化日志面板UI（如果存在）
+    if (window.autoUpdateLogger) {
+        console.log('[初始化] 自动填表日志系统已加载');
+    }
 
     // ⚠️ 关键：必须先加载设置，再注册监听器
     // 应用程序启动时加载设置
