@@ -9,7 +9,7 @@ import {rollbackVersion} from "../../services/debugs.js";
 import {customSheetsStylePopup} from "../editor/customSheetsStyle.js";
 import {openAppHeaderTableDrawer} from "../renderer/appHeaderTableBaseDrawer.js";
 import {buildSheetsByTemplates} from "../../index.js"
-import {initVectorSettings} from "./vectorSettings.js"
+import {initVectorSettings} from "./vectorSettings.js";
 
 /**
  * 格式化深度设置
@@ -547,6 +547,8 @@ function InitBinging() {
         triggerStepByStepNow();
     });
 
+    // 初始化向量化设置（包括所有向量化相关的事件绑定）
+    initVectorSettings();
 }
 
 /**
@@ -637,14 +639,7 @@ export function loadSettings() {
     InitBinging();
     initRefreshTypeSelector(); // 初始化表格刷新类型选择器
     updateTableView(); // 更新表格视图
-    getSheetsCellStyle();
-    
-    // 初始化向量化设置
-    try {
-        initVectorSettings();
-    } catch (error) {
-        console.error('向量化设置初始化失败:', error);
-    }
+    getSheetsCellStyle()
 }
 
 export function initTableStructureToTemplate() {

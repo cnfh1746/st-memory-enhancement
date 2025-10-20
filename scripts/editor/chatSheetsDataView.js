@@ -8,6 +8,7 @@ import { openTableStatisticsPopup } from "./tableStatistics.js";
 import { openCellHistoryPopup } from "./cellHistory.js";
 import { openSheetStyleRendererPopup } from "./sheetStyleEditor.js";
 import { Cell } from "../../core/table/cell.js";
+import { vectorizeCurrentTables } from "../settings/vectorSettings.js";
 
 let tablePopup = null
 let copyTableData = null
@@ -540,6 +541,10 @@ async function initTableView(mesId) {
     })
     $(document).on('click', '#table_rebuild_button', function () {
         EDITOR.tryBlock(rebuildSheets, "重建表格失败");
+    })
+    // 点击向量化表格按钮
+    $(document).on('click', '#table_vectorize_button', function () {
+        EDITOR.tryBlock(vectorizeCurrentTables, "向量化表格失败");
     })
     // 点击编辑表格按钮
     $(document).on('click', '#table_edit_mode_button', function () {
